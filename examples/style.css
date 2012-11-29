@@ -1,0 +1,64 @@
+* {
+	font-family:verdana;
+}
+
+body {
+	background-color: #FFA840;
+	margin: 0 auto;
+	width: 430px;
+}
+
+h1, p  {
+	text-align:center;
+}
+
+#menu {
+	list-style-type:none;
+	padding-left: 10px;
+}
+
+#menu > li {
+	margin: 5px 0px;
+	padding: 5px;
+	width:400px;
+	background-color:#A65A00;
+	color:#fff;
+	text-align:center;
+	color: #FFBF73;
+	cursor:pointer;
+}
+
+#menu > li:hover {
+	background-color:#BF7E30;
+}
+
+#content, #chart {
+	margin:10px;
+	height:400px;
+	background-color:#FFBF73;
+}
+
+#content {
+	padding:5px;
+	width:400px;
+}
+
+#chart {
+	width:410px;	
+}
+
+#list > div {
+	padding:5px;
+	margin:10px;
+	width:400px;
+	min-height:150px;
+	background-color:#FFBF73;
+}
+
+.loaded {
+	font-weight:bold;
+}
+
+.viewGraph {
+	font-weight:bold;
+}

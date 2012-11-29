@@ -1,0 +1,152 @@
+<head>
+  <link href="prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="prettify.js"></script>
+</head>
+<body onload="prettyPrint()">
+  <h2>patternLoad('bind'...):</h2>
+
+    <p>You write the following html:</p>
+    
+    <pre class="prettyprint">
+&lt;ul id="menu"&gt;
+  &lt;li id="cows"&gt;Learn about COWS!!&lt;/li&gt;
+  &lt;li id="ducks"&gt;Ducks like rain.&lt;/li&gt;
+  &lt;li id="chickens"&gt;Chickens. Haha.&lt;/li&gt;
+  &lt;li id="bears"&gt;GRRRRizlies&lt;/li&gt;
+  &lt;li id="tigers"&gt;Tigers are large cats!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div id="content"&gt;&lt;/div&gt;
+    </pre>
+    
+    <p>When your users click #cows you want fetch the file at content/cows.html using ajax and load it into #content</p>
+
+    <p>With PatternLoad, you can set this up for each &lt;li&gt; in the list like this:</p>
+    
+    <pre class="prettyprint">
+$('#menu &gt; li').patternLoad('bind', // pass 'bind' to load content on 
+                                       // click events (rather than loading
+                                       // it immediately)
+  'click', 
+  'content/%id%.html', // This is the file path patern.
+                       //  the %attribute% patern is replaced
+                       //  with the value of the the specified 
+                       // attribute for each &lt;li&gt; element.
+                       // the # character is replaced with the
+                       // position of the element among its siblings
+             
+  $('#content') // the div you want to load the AJAX fetched data into.
+);
+    </pre>
+      
+    <a href="examples/example1.html">Example 1</a>
+    <a href="examples/example2.html">Example 2</a>
+	 
+    <p>To be informed once the data has been loaded, you can bind to the #content load.patternLoad event:</p>
+
+    <pre class="prettyprint">
+$('#content').bind('load.patternLoad', function (e, trigger) {
+  // this function is passed a jquery object containing the element that
+  // triggered the load (in this case the &lt;li&gt;
+  $(trigger).addClass('loaded');
+}
+    </pre>
+    
+    <a href="examples/example3.html">Example 3</a>
+      
+    <p>If you want to do something with the AJAX fetched data other than loading it into a div, you can pass a function:</p>
+
+    <pre class="prettyprint">
+$('#menu &gt; li').patternLoad('bind', 
+  'click', 
+  'graphData/%id%.json', 
+  function (data, triggerElement) { // your function will recieve
+                                    // 2 arguments.  The fetched data
+                                    // and a jquery object containing
+                                    // the element that was clicked on
+                                    // to trigger the load.
+                    
+    drawPieChart($('#chart')[0], $(triggerElement).html(), $.parseJSON(data));
+  }
+);
+    </pre>
+    
+    <a href="examples/example4.html">Example 4</a>
+
+    <p>What if you want to have two navigation lists, one that loads content into the #content div and one that fetches json data and uses it to render a graph.  You can pass an extra argument to patternLoad to specify a different element collection to bind to.  This collection must be the same length as $('#menu > li').  The attribues from $('#menu > li') will be used to form file paths, but the AJAX fetch will be bound to the $('.graphButton') collection</p>
+    
+    <pre class="prettyprint">
+$('#menu &gt; li').patternLoad('bind', 
+  'click', 
+  'graphData/%id%.json', 
+  function (data, triggerElement) { // your function will recieve
+                                    // 2 arguments.  The fetched data
+                                    // and a jquery object containing
+                                    // the element that was clicked on
+                                    // to trigger the load.
+                    
+    drawPieChart($('#chart')[0], $(triggerElement).html(), $.parseJSON(data));
+  },
+  $('.graphButton')
+);
+    </pre>
+
+    <a href="examples/example5.html">Example 5</a>
+    
+  <h2>patternLoad('load'...):</h2>
+
+    <p>Maybe you dont want to load data on click events.  Using patternLoad('bind'..), you can load data into a collection of elements from files based on the attributes of (the same or a different) collection of elements.</p>
+    
+    <p>Here's the HTML:</p>
+    
+    <pre class="prettyprint">
+&lt;ul id="menu"&gt;
+  &lt;li id="cows"&gt;Learn about COWS!!&lt;/li&gt;
+  &lt;li id="ducks"&gt;Ducks like rain.&lt;/li&gt;
+  &lt;li id="chickens"&gt;Chickens. Haha.&lt;/li&gt;
+  &lt;li id="bears"&gt;GRRRRizlies&lt;/li&gt;
+  &lt;li id="tigers"&gt;Tigers are large cats!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div id="list"&gt;
+  &lt;div&gt;&lt;/div&gt;
+  &lt;div&gt;&lt;/div&gt;
+  &lt;div&gt;&lt;/div&gt;
+  &lt;div&gt;&lt;/div&gt;
+  &lt;div&gt;&lt;/div&gt;
+&lt;/div&gt;
+    </pre>
+    
+    <p>You can immediatly fetch files defined by the id attributes of the &lt;li&gt; elements, and load the returned content into one of the 5 dives in #list:</p>
+      
+    <pre class="prettyprint">
+$('#menu &gt; li').patternLoad('load', 
+  'content/%id%.html', 
+  $('#list &gt; div') // must be the same length as $('#menu &gt; li')
+);
+    </pre>
+    
+    <a href="examples/example6.html">Example 6</a>
+    
+    <p>Or you could give the divs ids:</p>
+    
+    <pre class="prettyprint">
+&lt;div id="list"&gt;
+  &lt;div id="cows"&gt;&lt;/div&gt;
+  &lt;div id="ducks"&gt;&lt;/div&gt;
+  &lt;div id="chickens"&gt;&lt;/div&gt;
+  &lt;div id="bears"&gt;&lt;/div&gt;
+  &lt;div id="tigers"&gt;&lt;/div&gt;
+&lt;/div&gt;
+    </pre>
+    
+    <p>And load content into the divs without using &lt;li&gt; elements:</p>
+    
+    <pre class="prettyprint">
+$('#menu &gt; li').patternLoad('load', 
+  'content/%id%.html', 
+);
+    </pre>
+    
+    <a href="examples/example7.html">Example 7</a>
+<body>

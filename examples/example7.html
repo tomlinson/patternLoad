@@ -1,0 +1,33 @@
+<!doctype html>  
+<html lang="en">  
+
+	<head>  
+		<meta charset="utf-8">  
+		<title>Pattern Load - Example 2</title>  
+		<meta name="description" content="Pattern Load">  
+		<meta name="author" content="Joey Tomlinson">  
+		<link rel="stylesheet" href="style.css">
+		<script src="jquery-1.8.3.min.js"></script>
+		<script src="jquery.patternLoad.js"></script>
+		<!--[if lt IE 9]>  
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>  
+		<![endif]-->
+	</head> 
+	
+	<body>
+		
+		<div id="list">
+			<div id="cows"></div>
+			<div id="ducks"></div>
+			<div id="chickens"></div>
+			<div id="bears"></div>
+			<div id="tigers"></div>
+		</div>
+
+		<script>
+			$('#list > div').patternLoad('load', 'content/%id%.html');
+		</script>
+		
+	</body>  
+	
+</html>
